@@ -1,0 +1,18 @@
+{
+	"parts": [
+		{
+			"name": "ep_mobile_view",
+
+			"client_hooks": {
+        "aceEditorCSS": "ep_mobile_view/static/js/index",
+        "postAceInit": "ep_mobile_view/static/js/index"
+      },
+			"hooks": {
+        "expressCreateServer": "ep_mobile_view/index",
+        "eejsBlock_styles": "ep_mobile_view/index",
+        "clientVars": "ep_mobile_view/index"
+			}
+		}
+	]
+}
+

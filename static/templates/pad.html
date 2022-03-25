@@ -1,0 +1,388 @@
+<%
+  var settings = require("ep_etherpad-lite/node/utils/Settings")
+    , langs = require("ep_etherpad-lite/node/hooks/i18n").availableLangs
+    , pluginUtils = require('ep_etherpad-lite/static/js/pluginfw/shared')
+    ;
+%>
+<!doctype html>
+<html class="pad <%=pluginUtils.clientPluginNames().join(' '); %> <%=settings.skinVariants%>">
+<head>
+  <% e.begin_block("htmlHead"); %>
+  <% e.end_block(); %>
+  <title><%=meta.title%></title>
+  <script>
+    /*
+    |@licstart  The following is the entire license notice for the
+    JavaScript code in this page.|
+
+    Copyright 2011 Peter Martischka, Primary Technology.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+    |@licend  The above is the entire license notice
+    for the JavaScript code in this page.|
+    */
+  </script>
+  <script src="<%= staticRootAddress %>static/js/basic_error_handler.js?v=<%=settings.randomVersionString%>"></script>
+
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+  <link rel="shortcut icon" href="<%= settings.getFaviconAddress(settings.favicon)%>">
+  <meta property="og:title" content="<%=meta.title%>" />
+  <meta property="og:image" content="https://docs.plus/static/images/social-logo.png?v=<%=settings.randomVersionString%>" />
+
+  <link rel="shortcut icon" href="<%= settings.getFaviconAddress(settings.favicon)%>">
+  <meta property="og:title" content="<%=meta.title%>" />
+  <meta property="og:description" content="docs.plus" />
+  <meta property="og:image" content="https://docs.plus/static/images/social-logo.png?v=<%=settings.randomVersionString%>" />
+
+  <% e.begin_block("styles"); %>
+  <link href="<%= staticRootAddress %>static/css/pad.css?v=<%=settings.randomVersionString%>" rel="stylesheet">
+
+  <% e.begin_block("customStyles"); %>
+  <link href="<%= staticRootAddress %>static/skins/<%=encodeURI(settings.skinName)%>/pad.css?v=<%=settings.randomVersionString%>" rel="stylesheet">
+  <% e.end_block(); %>
+
+  <style title="dynamicsyntax"></style>
+  <% e.end_block(); %>
+
+  <link rel="localizations" type="application/l10n+json" href="<%= staticRootAddress %>static/locales.json" />
+  <script type="text/javascript" src="<%= staticRootAddress %>static/js/vendors/html10n.js?v=<%=settings.randomVersionString%>"></script>
+  <script type="text/javascript" src="<%= staticRootAddress %>static/js/l10n.js?v=<%=settings.randomVersionString%>"></script>
+</head>
+<body class="mobileView">
+  <% e.begin_block("body"); %>
+  <% e.begin_block("afterEditbar"); %><% e.end_block(); %>
+  <div id="blackScreen"></div>
+  <header id="mainHeader">
+    <div class="hamburgerMenu">
+      <button id="openLeftSideMenue">
+        <span class="icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M6.5 6C6.5 6.27614 6.27614 6.5 6 6.5C5.72386 6.5 5.5 6.27614 5.5 6C5.5 5.72386 5.72386 5.5 6 5.5C6.27614 5.5 6.5 5.72386 6.5 6Z" stroke="#141414" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6.5 12C6.5 12.2761 6.27614 12.5 6 12.5C5.72386 12.5 5.5 12.2761 5.5 12C5.5 11.7239 5.72386 11.5 6 11.5C6.27614 11.5 6.5 11.7239 6.5 12Z" stroke="#141414" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6.5 18C6.5 18.2761 6.27614 18.5 6 18.5C5.72386 18.5 5.5 18.2761 5.5 18C5.5 17.7239 5.72386 17.5 6 17.5C6.27614 17.5 6.5 17.7239 6.5 18Z" stroke="#141414" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9.75 6H18.25" stroke="#141414" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9.75 12H18.25" stroke="#141414" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9.75 18H18.25" stroke="#141414" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+    <div class="title">
+      DocsPlus Manifesto
+    </div>
+    <div class="shortMenue">
+      <div class="btnChat">
+        <span class="messageCount">1</span>
+        <button>
+          <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
+              <path d="M4.38916 13.4312C4.63672 13.4312 4.8208 13.3042 5.11914 13.0249L7.41064 10.9302L11.7017 10.9365C13.5933 10.9429 14.6089 9.88916 14.6089 8.0293V3.16699C14.6089 1.30713 13.5933 0.259766 11.7017 0.259766H3.52588C1.63428 0.259766 0.618652 1.30078 0.618652 3.16699V8.0293C0.618652 9.89551 1.63428 10.9302 3.52588 10.9302H3.82422V12.7773C3.82422 13.1709 4.02734 13.4312 4.38916 13.4312ZM4.24316 3.78906C4.03369 3.78906 3.8623 3.62402 3.8623 3.4082C3.8623 3.20508 4.03369 3.03369 4.24316 3.03369H10.9082C11.1177 3.03369 11.2827 3.20508 11.2827 3.4082C11.2827 3.62402 11.1177 3.78906 10.9082 3.78906H4.24316ZM4.24316 5.92188C4.03369 5.92188 3.8623 5.75049 3.8623 5.53467C3.8623 5.33154 4.03369 5.16016 4.24316 5.16016H10.9082C11.1177 5.16016 11.2827 5.33154 11.2827 5.53467C11.2827 5.75049 11.1177 5.92188 10.9082 5.92188H4.24316ZM4.24316 8.04834C4.03369 8.04834 3.8623 7.8833 3.8623 7.67383C3.8623 7.45801 4.03369 7.28662 4.24316 7.28662H8.57861C8.78809 7.28662 8.95312 7.45801 8.95312 7.67383C8.95312 7.8833 8.78809 8.04834 8.57861 8.04834H4.24316Z" fill="black"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+      <div class="inlineAvatar">
+        <span class="icon">
+        </span>
+      </div>
+
+      </ul>
+    </div>
+  </header>
+
+  <div id="editorcontainerbox" class="flex-layout">
+      <% e.begin_block("editorContainerBox"); %>
+
+      <!----------------------------->
+      <!--- PAD EDITOR (in iframe) -->
+      <!----------------------------->
+
+      <div id="editorcontainer" class="editorcontainer"></div>
+
+      <div id="editorloadingbox">
+        <% e.begin_block("permissionDenied"); %>
+        <div id="permissionDenied">
+          <p data-l10n-id="pad.permissionDenied" class="editorloadingbox-message">
+            You do not have permission to access this pad
+          </p>
+        </div>
+        <% e.end_block(); %>
+        <% e.begin_block("loading"); %>
+        <p data-l10n-id="pad.loading" id="loading" class="editorloadingbox-message">
+          <img src='../static/img/brand.svg' class='etherpadBrand'><br/>
+          Loading...
+        </p>
+        <% e.end_block(); %>
+        <noscript>
+          <p class="editorloadingbox-message">
+            <strong>
+              Sorry, you have to enable Javascript in order to use this.
+            </strong>
+          </p>
+        </noscript>
+      </div>
+
+      <!---------------------------------------------------->
+      <!-- CONNECTIVITY POPUP (when you get disconnected) -->
+      <!---------------------------------------------------->
+
+      <div id="connectivity" class="popup"><div class="popup-content">
+          <% e.begin_block("modals"); %>
+          <div class="connected visible">
+            <h2 data-l10n-id="pad.modals.connected"></h2>
+          </div>
+          <div class="reconnecting">
+            <h1 data-l10n-id="pad.modals.reconnecting"></h1>
+            <i class='buttonicon buttonicon-spin5 icon-spin'>
+              <img src='../static/img/brand.svg' class='etherpadBrand'><br/>
+            </i>
+          </div>
+          <div class="userdup">
+            <h1 data-l10n-id="pad.modals.userdup"></h1>
+            <h2 data-l10n-id="pad.modals.userdup.explanation"></h2>
+            <p id="defaulttext" data-l10n-id="pad.modals.userdup.advice"></p>
+            <button id="forcereconnect" class="btn btn-primary" data-l10n-id="pad.modals.forcereconnect"></button>
+          </div>
+          <div class="unauth">
+            <h1 data-l10n-id="pad.modals.unauth"></h1>
+            <p id="defaulttext" data-l10n-id="pad.modals.unauth.explanation"></p>
+            <button id="forcereconnect" class="btn btn-primary" data-l10n-id="pad.modals.forcereconnect"></button>
+          </div>
+          <div class="looping">
+            <h1 data-l10n-id="pad.modals.disconnected"></h1>
+            <h2 data-l10n-id="pad.modals.looping.explanation"></h2>
+            <p data-l10n-id="pad.modals.looping.cause"></p>
+          </div>
+          <div class="initsocketfail">
+            <h1 data-l10n-id="pad.modals.initsocketfail"></h1>
+            <h2 data-l10n-id="pad.modals.initsocketfail.explanation"></h2>
+            <p data-l10n-id="pad.modals.initsocketfail.cause"></p>
+          </div>
+          <div class="slowcommit with_reconnect_timer">
+            <h1 data-l10n-id="pad.modals.disconnected"></h1>
+            <h2 data-l10n-id="pad.modals.slowcommit.explanation"></h2>
+            <p id="defaulttext" data-l10n-id="pad.modals.slowcommit.cause"></p>
+            <button id="forcereconnect" class="btn btn-primary" data-l10n-id="pad.modals.forcereconnect"></button>
+          </div>
+          <div class="badChangeset with_reconnect_timer">
+            <h1 data-l10n-id="pad.modals.disconnected"></h1>
+            <h2 data-l10n-id="pad.modals.badChangeset.explanation"></h2>
+            <p id="defaulttext" data-l10n-id="pad.modals.badChangeset.cause"></p>
+            <button id="forcereconnect" class="btn btn-primary" data-l10n-id="pad.modals.forcereconnect"></button>
+          </div>
+          <div class="corruptPad">
+            <h1 data-l10n-id="pad.modals.disconnected"></h1>
+            <h2 data-l10n-id="pad.modals.corruptPad.explanation"></h2>
+            <p data-l10n-id="pad.modals.corruptPad.cause"></p>
+          </div>
+          <div class="deleted">
+            <h1 data-l10n-id="pad.modals.deleted"></h1>
+            <p data-l10n-id="pad.modals.deleted.explanation"></p>
+          </div>
+          <div class="rateLimited">
+            <h1 data-l10n-id="pad.modals.rateLimited"></h1>
+            <p data-l10n-id="pad.modals.rateLimited.explanation"></p>
+          </div>
+          <div class="rejected">
+            <h1 data-l10n-id="pad.modals.disconnected"></h1>
+            <h2 data-l10n-id="pad.modals.rejected.explanation"></h2>
+            <p data-l10n-id="pad.modals.rejected.cause"></p>
+          </div>
+          <div class="disconnected with_reconnect_timer">
+            <% e.begin_block("disconnected"); %>
+            <h1 data-l10n-id="pad.modals.disconnected"></h1>
+            <h2 data-l10n-id="pad.modals.disconnected.explanation"></h2>
+            <p id="defaulttext" data-l10n-id="pad.modals.disconnected.cause"></p>
+            <button id="forcereconnect" class="btn btn-primary" data-l10n-id="pad.modals.forcereconnect"></button>
+            <% e.end_block(); %>
+          </div>
+          <form id="reconnectform" method="post" action="/ep/pad/reconnect" accept-charset="UTF-8" style="display: none;">
+              <input type="hidden" class="padId" name="padId">
+              <input type="hidden" class="diagnosticInfo" name="diagnosticInfo">
+              <input type="hidden" class="missedChanges" name="missedChanges">
+          </form>
+          <% e.end_block(); %>
+      </div></div>
+
+
+      <div class="sticky-container">
+
+        <!---------------------------------------------------------------------->
+        <!-- USERS POPUP (set username, color, see other users names & color) -->
+        <!---------------------------------------------------------------------->
+
+        <div id="users" class="popup"><div class="popup-content">
+            <% e.begin_block("userlist"); %>
+            <div id="connectionstatus"></div>
+            <div id="myuser">
+                <div id="mycolorpicker" class="popup"><div class="popup-content">
+                    <div id="colorpicker"></div>
+                    <div class="btn-container">
+                      <button id="mycolorpickersave" data-l10n-id="pad.colorpicker.save" class="btn btn-primary"></button>
+                      <button id="mycolorpickercancel" data-l10n-id="pad.colorpicker.cancel" class="btn btn-default"></button>
+                      <span id="mycolorpickerpreview" class="myswatchboxhoverable"></span>
+                    </div>
+                </div></div>
+                <div id="myswatchbox"><div id="myswatch"></div></div>
+                <div id="myusernameform">
+                  <input type="text" id="myusernameedit" disabled="disabled" data-l10n-id="pad.userlist.entername">
+                </div>
+            </div>
+            <div id="otherusers" aria-role="document">
+                <table id="otheruserstable" cellspacing="0" cellpadding="0" border="0">
+                    <tr><td></td></tr>
+                </table>
+            </div>
+            <div id="userlistbuttonarea"></div>
+            <% e.end_block(); %>
+        </div></div>
+
+      </div>
+
+      <% e.end_block(); %>
+
+  </div> <!-- End of #editorcontainerbox -->
+
+  <% e.end_block(); %>
+
+  <div id="tableOfContentsModal" class="ndModal left w90">
+    <div class="wrapper">
+      <div class="header">
+        <div class="title">Table of Contents</div>
+        <div class="menue"></div>
+      </div>
+      <div class="content"></div>
+    </div>
+  </div>
+
+  <div id="filterHeadersModal" class="ndModal bottom h75">
+    <div class="wrapper">
+      <div class="header">
+        <div class="title">Filters</div>
+        <div class="menue"></div>
+      </div>
+      <div class="content"></div>
+    </div>
+  </div>
+
+
+  <div id="chatModal" class="ndModal bottom h50">
+    <div class="wrapper">
+      <div class="header">
+        <div class="title">Chat</div>
+        <div class="menue"></div>
+      </div>
+      <div class="content"></div>
+    </div>
+  </div>
+
+  <div class="floatingButton">
+    <button>
+      <span class="icon edite">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M0.75 15.2498L5 14.2498L14.9491 4.3007C15.3397 3.91018 15.3397 3.27702 14.9491 2.88649L13.1134 1.05071C12.7228 0.660182 12.0897 0.660181 11.6991 1.05071L1.75 10.9998L0.75 15.2498Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </button>
+  </div>
+
+  <!----------------------------->
+  <!-------- JAVASCRIPT --------->
+  <!----------------------------->
+
+  <% e.begin_block("scripts"); %>
+
+  <script type="text/javascript" src="<%= staticRootAddress %>static/js/require-kernel.js?v=<%=settings.randomVersionString%>"></script>
+  <script type="text/javascript" src="<%= staticRootAddress %>socket.io/socket.io.js?v=<%=settings.randomVersionString%>"></script>
+
+  <!-- Include base packages manually (this help with debugging) -->
+  <script type="text/javascript" src="<%= staticRootAddress %>javascripts/lib/ep_etherpad-lite/static/js/pad.js?callback=require.define&v=<%=settings.randomVersionString%>"></script>
+  <script type="text/javascript" src="<%= staticRootAddress %>javascripts/lib/ep_etherpad-lite/static/js/ace2_common.js?callback=require.define&v=<%=settings.randomVersionString%>"></script>
+
+  <% e.begin_block("customScripts"); %>
+  <script type="text/javascript" src="<%= staticRootAddress %>static/skins/<%=encodeURI(settings.skinName)%>/pad.js?v=<%=settings.randomVersionString%>"></script>
+  <% e.end_block(); %>
+
+  <!-- Bootstrap page -->
+  <script type="text/javascript">
+      // @license magnet:?xt=urn:btih:8e4f440f4c65981c5bf93c76d35135ba5064d8b7&dn=apache-2.0.txt
+      var clientVars = {
+        // This is needed to fetch /pluginfw/plugin-definitions.json, which happens before the
+        // server sends the CLIENT_VARS message.
+        randomVersionString: <%-JSON.stringify(settings.randomVersionString)%>,
+      };
+      (function () {
+        var pathComponents = location.pathname.split('/');
+        clientVars.padId = "<%= padId %>";
+        clientVars.padName = "<%= padName %>";
+        clientVars.staticRootAddress = "<%= staticRootAddress  %>";
+        clientVars.padView = "<%= padView %>";
+        clientVars.useragent = "<%= userAgent %>";
+        clientVars.ep_singlePad = <%- JSON.stringify(settings.ep_singlePad ||{active: false}) %>;
+
+        // Strip 'p' and the padname from the pathname and set as baseURL
+        var baseURL = pathComponents.slice(0,1).join('/') + '/';
+
+        require.setRootURI(baseURL + "javascripts/src");
+        require.setLibraryURI(baseURL + "javascripts/lib");
+        require.setGlobalKeyPath("require");
+
+        $ = jQuery = require('ep_etherpad-lite/static/js/rjquery').jQuery; // Expose jQuery #HACK
+        browser = require('ep_etherpad-lite/static/js/vendors/browser');
+
+        var plugins = require('ep_etherpad-lite/static/js/pluginfw/client_plugins');
+        var hooks = require('ep_etherpad-lite/static/js/pluginfw/hooks');
+
+        plugins.baseURL = baseURL;
+        plugins.update(function () {
+          // Mechanism for tests to register hook functions (install fake plugins).
+          window._postPluginUpdateForTestingDone = false;
+          if (window._postPluginUpdateForTesting != null) window._postPluginUpdateForTesting();
+          window._postPluginUpdateForTestingDone = true;
+          // Call documentReady hook
+          $(function() {
+            hooks.aCallAll('documentReady');
+          });
+
+          var pad = require('ep_etherpad-lite/static/js/pad');
+          pad.baseURL = baseURL;
+          pad.init();
+        });
+
+        /* TODO: These globals shouldn't exist. */
+        pad = require('ep_etherpad-lite/static/js/pad').pad;
+        chat = require('ep_etherpad-lite/static/js/chat').chat;
+        padeditbar = require('ep_etherpad-lite/static/js/pad_editbar').padeditbar;
+        padimpexp = require('ep_etherpad-lite/static/js/pad_impexp').padimpexp;
+        require('ep_etherpad-lite/static/js/skin_variants');
+
+      }());
+      // @license-end
+  </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BW657D3QVX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BW657D3QVX');
+    </script>
+  <div style="display:none"><a href="/javascript" data-jslicense="1">JavaScript license information</a></div>
+  <% e.end_block(); %>
+</body>
+</html>

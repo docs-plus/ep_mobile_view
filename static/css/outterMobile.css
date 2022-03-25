@@ -1,0 +1,239 @@
+
+
+#blackScreen::before{
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,.5);
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: all .3s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+
+#blackScreen.active::before{
+  content: '';
+  display: block;
+  opacity: 1;
+}
+
+body > header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border: 1px solid #eee;
+}
+
+body > header .title {
+  width: 67%;
+}
+
+body > header button{
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+body > header button span.icon, body > header button span.icon svg{
+  display: block;
+}
+
+body > header .hamburgerMenu {
+  width: 10%;
+}
+
+body > header .hamburgerMenu button {
+  width: 30px;
+  height: 30px;
+}
+
+body > header .shortMenue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 20%;
+}
+
+body > header .shortMenue .inlineAvatar {
+  width: 30px;
+  height: 30px;
+  background-color: palevioletred;
+  border-radius: 50%;
+}
+
+body > header .shortMenue .btnChat{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body > header .shortMenue .btnChat button{
+  width: 30px;
+  height: 30px;
+}
+
+#editorcontainerbox{
+  margin-top: 60px;
+}
+
+/* mobal bottom*/
+.ndModal {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,.5);
+  height: 100%;
+  opacity: 0;
+  z-index: -1000;
+  transition: opacity .4s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.ndModal .menue{
+  display: flex;
+  align-items: center;
+  justify-items: center
+}
+
+.ndModal > .blackScreen {
+  height: 100vh;
+  width: 100vw;
+}
+
+.ndModal.active{
+  opacity: 1;
+  z-index: 6;
+}
+
+.ndModal .wrapper {
+  width: 100%;
+  background: #fff;
+  transition: all .3s cubic-bezier(0.075, 0.82, 0.165, 1) .2s;
+  position: absolute;
+}
+
+.ndModal.left .wrapper,
+.ndModal.right .wrapper{
+  height: 100vh;
+}
+
+.ndModal.top .wrapper,
+.ndModal.left .wrapper{
+  width: 100vw;
+}
+
+.ndModal.left .wrapper {
+  top: 0;
+  left: 0;
+  transform: translateX(-100%);
+}
+
+.ndModal.top .wrapper {
+  top: 0;
+  transform: translateY(-100%);
+  border-radius: 0 0 22px 22px;
+}
+
+.ndModal.bottom .wrapper {
+  bottom: 0;
+  transform: translateY(100%);
+  border-radius: 22px 22px 0 0 ;
+}
+
+.ndModal.top.active .wrapper,
+.ndModal.bottom.active .wrapper{
+  transform: translateY(0);
+}
+
+.ndModal.top.close .wrapper,
+.ndModal.bottom.close .wrapper {
+  transform: translateY(100%);
+}
+
+.ndModal.left.active .wrapper{
+  transform: translateX(0);
+}
+
+.ndModal.left.close .wrapper{
+  transform: translateX(-100%);
+}
+
+.ndModal.close {
+  transition-delay: .4s;
+  opacity: 0;
+}
+
+.ndModal.h50 .wrapper{height: 50vh}
+.ndModal.h25 .wrapper{height: 25vh}
+.ndModal.h75 .wrapper{height: 75vh}
+.ndModal.h90 .wrapper{height: 90vh}
+.ndModal.w75 .wrapper{width: 75vw}
+.ndModal.w90 .wrapper{width: 90vw}
+
+.ndModal .header {
+  margin-top: 16px;
+  padding: 4px 12px 4px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ndModal .header button {
+  margin-left: 10px;
+}
+.ndModal .header button:last-of-type{
+  margin: 0;
+}
+
+.ndModal .header span.icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ndModal .header .title {
+  font-weight: bold;
+  font-size: 17px;
+}
+.ndModal .header .btnCloseNdModal{
+  border-radius: 50%;
+  background-color: #F7F7F7;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  order: 1;
+}
+
+
+/*floating button*/
+.floatingButton{
+  background: #007AFF;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.floatingButton .icon{
+  display: block;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
