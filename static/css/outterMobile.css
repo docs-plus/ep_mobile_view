@@ -237,3 +237,14 @@ body > header .shortMenue .btnChat button{
   align-items: center;
   justify-content: center;
 }
+
+/*mobiletoolbar*/
+#mobiletoolbar{
+  width: 100%;
+  height: 40px;
+  border-top: 1px solid #ddd;
+  position: fixed;
+  bottom: 0;
+  background: #fff;
+  display: none;
+}

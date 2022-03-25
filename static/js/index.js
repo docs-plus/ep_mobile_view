@@ -56,4 +56,82 @@ module.exports.postAceInit = () => {
       s.addRange(r);
     }
   });
+
+
+  const onKeyboardOnOff = (isOpen) => {
+    // Write down your handling code
+    if (isOpen) {
+      // keyboard is open
+      console.log('keyboar open');
+      $('#mobiletoolbar').show();
+    } else {
+      // keyboard is closed
+      console.log('keyboar closed');
+      $('#mobiletoolbar').hide();
+    }
+  };
+
+  let originalPotion = false;
+  $(document).ready(() => {
+    if (originalPotion === false) originalPotion = $(window).width() + $(window).height();
+  });
+
+  /**
+ * Determine the mobile operating system.
+ * This function returns one of 'iOS', 'Android', 'Windows Phone', or 'unknown'.
+ *
+ * @returns {String}
+ */
+  const getMobileOperatingSystem = () => {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    // Windows Phone must come first because its UA also contains "Android"
+    if (/windows phone/i.test(userAgent)) {
+      return 'winphone';
+    }
+
+    if (/android/i.test(userAgent)) {
+      return 'android';
+    }
+
+    // iOS detection from: http://stackoverflow.com/a/9039885/177710
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+      return 'ios';
+    }
+
+    return '';
+  };
+
+  const applyAfterResize = () => {
+    if (getMobileOperatingSystem() !== 'ios') {
+      if (originalPotion !== false) {
+        const wasWithKeyboard = $('body').hasClass('view-withKeyboard');
+        let nowWithKeyboard = false;
+
+        const diff = Math.abs(originalPotion - ($(window).width() + $(window).height()));
+        if (diff > 100) nowWithKeyboard = true;
+
+        $('body').toggleClass('view-withKeyboard', nowWithKeyboard);
+        if (wasWithKeyboard !== nowWithKeyboard) {
+          onKeyboardOnOff(nowWithKeyboard);
+        }
+      }
+    }
+  };
+
+  $(document).find('iframe[name="ace_outer"]')
+      .contents()
+      .find('iframe[name="ace_inner"]')
+      .contents()
+      .find('#innerdocbody')
+      .on('focus blur', 'select, textarea, input[type=text], input[type=date], input[type=password], input[type=email], input[type=number]', function (e) {
+        const $obj = $(this);
+        const nowWithKeyboard = (e.type === 'focusin');
+        $('body').toggleClass('view-withKeyboard', nowWithKeyboard);
+        onKeyboardOnOff(nowWithKeyboard);
+      });
+
+  $(window).on('resize orientationchange', () => {
+    applyAfterResize();
+  });
 };
