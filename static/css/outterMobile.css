@@ -270,8 +270,9 @@ body > header .shortMenue .btnChat button{
   border-radius: 0;
   margin: 0 14px;
   display: flex;
-    align-items: center;
-    justify-content: center;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
 }
 
 #mobileToolbar ul li .icon{

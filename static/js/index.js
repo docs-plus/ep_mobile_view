@@ -57,6 +57,7 @@ module.exports.postAceInit = (hookName, context) => {
     }
 
     $('.floatingButton').fadeOut('fast');
+    $('#mobileToolbar').show();
   });
 
 
@@ -64,10 +65,11 @@ module.exports.postAceInit = (hookName, context) => {
     // Write down your handling code
     if (isOpen) {
       // keyboard is open
-      $('#mobileToolbar').hide();
+      $('#mobileToolbar').show();
+      $('.floatingButton').fadeOut('fast');
     } else {
       // keyboard is closed
-      $('#mobileToolbar').show();
+      $('#mobileToolbar').hide();
       $('.floatingButton').fadeIn('fast');
     }
   };
@@ -143,14 +145,13 @@ module.exports.postAceInit = (hookName, context) => {
     }, action);
   };
 
-  $(document).on('click touchstart', '#mobileToolbar ul li', function () {
+  $(document).on('touchstart', '#mobileToolbar ul li', function () {
     const action = $(this).attr('data-action');
-    if (action !== 'hyperLink') return false;
     if (action === 'insertorderedlist') {
       context.ace.callWithAce((ace) => {
         ace.ace_doInsertOrderedList();
       }, action);
-    } else {
+    } else if ('bold, italic, underline'.includes(action)) {
       toggleAttributeOnSelection(action);
     }
   });
