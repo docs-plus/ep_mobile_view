@@ -64,12 +64,10 @@ module.exports.postAceInit = (hookName, context) => {
     // Write down your handling code
     if (isOpen) {
       // keyboard is open
-      console.log('keyboar open');
-      $('#mobileToolbar').show();
+      $('#mobileToolbar').hide();
     } else {
       // keyboard is closed
-      console.log('keyboar closed');
-      $('#mobileToolbar').hide();
+      $('#mobileToolbar').show();
       $('.floatingButton').fadeIn('fast');
     }
   };
@@ -144,9 +142,9 @@ module.exports.postAceInit = (hookName, context) => {
       ace.ace_toggleAttributeOnSelection(action);
     }, action);
   };
-  $(document).on('touchstart', '#mobileToolbar ul li', function () {
+
+  $(document).on('click touchstart', '#mobileToolbar ul li', function () {
     const action = $(this).attr('data-action');
-    console.log(action);
     if (action !== 'hyperLink') return false;
     if (action === 'insertorderedlist') {
       context.ace.callWithAce((ace) => {
