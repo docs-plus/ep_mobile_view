@@ -33,12 +33,12 @@ $.fn.ndModal = function () {
   return this;
 };
 
-module.exports.postAceInit = () => {
+module.exports.postAceInit = (hookName, context) => {
   $(document).on('click touchstart', '#openLeftSideMenue', () => {
     $('#tableOfContentsModal').ndModal();
   });
 
-  $(document).on('click', '.floatingButton button', () => {
+  $(document).on('click touchstart', '.floatingButton button', () => {
     const aceInner = $(document).find('iframe[name="ace_outer"]')
         .contents().find('iframe[name="ace_inner"]').contents().find('#innerdocbody')[0];
 
@@ -55,6 +55,8 @@ module.exports.postAceInit = () => {
       s.removeAllRanges();
       s.addRange(r);
     }
+
+    $('.floatingButton').fadeOut('fast');
   });
 
 
@@ -63,11 +65,12 @@ module.exports.postAceInit = () => {
     if (isOpen) {
       // keyboard is open
       console.log('keyboar open');
-      $('#mobiletoolbar').show();
+      $('#mobileToolbar').show();
     } else {
       // keyboard is closed
       console.log('keyboar closed');
-      $('#mobiletoolbar').hide();
+      $('#mobileToolbar').hide();
+      $('.floatingButton').fadeIn('fast');
     }
   };
 
@@ -133,5 +136,24 @@ module.exports.postAceInit = () => {
 
   $(window).on('resize orientationchange', () => {
     applyAfterResize();
+  });
+
+
+  const toggleAttributeOnSelection = (action) => {
+    context.ace.callWithAce((ace) => {
+      ace.ace_toggleAttributeOnSelection(action);
+    }, action);
+  };
+  $(document).on('touchstart', '#mobileToolbar ul li', function () {
+    const action = $(this).attr('data-action');
+    console.log(action);
+    if (action !== 'hyperLink') return false;
+    if (action === 'insertorderedlist') {
+      context.ace.callWithAce((ace) => {
+        ace.ace_doInsertOrderedList();
+      }, action);
+    } else {
+      toggleAttributeOnSelection(action);
+    }
   });
 };
