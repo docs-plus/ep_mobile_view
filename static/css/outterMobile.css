@@ -20,11 +20,12 @@
 
 body > header {
   width: 100%;
-  position: fixed;
+  position: unset;
   top: 0;
-  height: 60px;
+  min-height: 60px;
+  height: auto;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   padding: 10px 14px;
   border: 1px solid #eee;
@@ -82,7 +83,7 @@ body > header .shortMenue .btnChat button{
 }
 
 #editorcontainerbox{
-  margin-top: 60px;
+  margin: 0;
 }
 
 /* mobal bottom*/
@@ -265,7 +266,6 @@ body > header .shortMenue .btnChat button{
 #mobileToolbar ul li{
   width: 40px;
   height: 40px;
-  /* background-color: red; */
   padding: 0;
   border-radius: 0;
   margin: 0 14px;
