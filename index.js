@@ -2,7 +2,6 @@ const padInfo = require('ep_etherpad-lite/node/utils/nestedPad'); // @Hossein
 const db = require('ep_etherpad-lite/node/db/DB');
 const eejs = require('ep_etherpad-lite/node/eejs');
 const useragent = require('express-useragent');
-
 const packageJson = require('./package.json');
 
 let userAgent = {};
@@ -34,6 +33,7 @@ exports.expressCreateServer = (hookName, args, callback) => {
   });
 
   args.app.get('/p/:pad*', async (req, res, next) => {
+    if (/(\/static\/plugins\/(.*))/.test(req.path)) return next();
     if (!userAgent.isMobile) return next();
 
     let staticRootAddress = req.path.split('/');
