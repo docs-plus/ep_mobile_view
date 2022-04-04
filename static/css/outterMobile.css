@@ -1,4 +1,6 @@
-
+body.mobileView button{
+  cursor: none;
+}
 
 #blackScreen::before{
   position: fixed;
