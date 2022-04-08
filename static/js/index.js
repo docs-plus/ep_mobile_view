@@ -65,11 +65,13 @@ module.exports.postAceInit = (hookName, context) => {
     // Write down your handling code
     if (isOpen) {
       // keyboard is open
-      $('#mobileToolbar').show();
+      $('#mobileToolbar, #closeVirtualKeyboar').show();
+      $('#openLeftSideMenue').hide();
       $('.floatingButton').fadeOut('fast');
     } else {
       // keyboard is closed
-      $('#mobileToolbar').hide();
+      $('#mobileToolbar, #closeVirtualKeyboar').hide();
+      $('#openLeftSideMenue').show();
       $('.floatingButton').fadeIn('fast');
     }
   };
@@ -127,12 +129,13 @@ module.exports.postAceInit = (hookName, context) => {
       .find('iframe[name="ace_inner"]')
       .contents()
       .find('#innerdocbody')
-      .on('focus blur', 'select, textarea, input[type=text], input[type=date], input[type=password], input[type=email], input[type=number]', function (e) {
-        const $obj = $(this);
-        const nowWithKeyboard = (e.type === 'focusin');
-        $('body').toggleClass('view-withKeyboard', nowWithKeyboard);
-        onKeyboardOnOff(nowWithKeyboard);
-      });
+      .on('focus blur',
+          'select, textarea, input[type=text], input[type=date], input[type=password], input[type=email], input[type=number]',
+          (e) => {
+            const nowWithKeyboard = (e.type === 'focusin');
+            $('body').toggleClass('view-withKeyboard', nowWithKeyboard);
+            onKeyboardOnOff(nowWithKeyboard);
+          });
 
   $(window).on('resize orientationchange', () => {
     applyAfterResize();

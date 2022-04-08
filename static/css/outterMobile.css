@@ -59,6 +59,10 @@ body > header .hamburgerMenu button {
   height: 30px;
 }
 
+body > header .hamburgerMenu #closeVirtualKeyboar {
+  display: none;
+}
+
 body > header .shortMenue {
   display: flex;
   align-items: center;
