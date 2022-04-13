@@ -22,7 +22,7 @@ body.mobileView button{
 
 body > header {
   width: 100%;
-  position: unset;
+  position: fixed;
   top: 0;
   min-height: 60px;
   height: auto;
@@ -31,6 +31,9 @@ body > header {
   justify-content: space-between;
   padding: 10px 14px;
   border: 1px solid #eee;
+  transition: all .4s cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  z-index: 1;
+  background: #fff;
 }
 
 body > header .title {
@@ -234,6 +237,7 @@ body > header .shortMenue .btnChat button{
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  transition: all .4s cubic-bezier(0.95, 0.05, 0.795, 0.035);
 }
 
 .floatingButton button{
@@ -284,5 +288,3 @@ body > header .shortMenue .btnChat button{
 #mobileToolbar ul li .icon{
   display: block;
 }
-
-

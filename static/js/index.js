@@ -33,9 +33,50 @@ $.fn.ndModal = function () {
   return this;
 };
 
+const innderDoc = () => $(document)
+    .find('iframe[name="ace_outer"]')
+    .contents().find('iframe[name="ace_inner"]').contents();
+
 module.exports.postAceInit = (hookName, context) => {
   $(document).on('click touchstart', '#openLeftSideMenue', () => {
     $('#tableOfContentsModal').ndModal();
+  });
+
+  const scrollDown = () => {
+    $('#mainHeader').css({
+      transform: 'translateY(-100%)',
+    });
+    $('.floatingButton').css({
+      transform: 'translateY(160%)',
+    });
+  };
+
+  const scrollUp = () => {
+    $('#mainHeader').css({
+      transform: 'translateY(0)',
+    });
+    $('.floatingButton').css({
+      transform: 'translateY(0)',
+    });
+  };
+
+  let touchStartPosX = 0;
+  // Detect Scroll Down and Up in mobile(android|ios)
+  innderDoc().on('touchmove', (e) => {
+    // Different devices give different values with different decimal percentages.
+    const currentPageX = Math.round(e.originalEvent.touches[0].screenY);
+
+    if (currentPageX <= 60) return false;
+    if (touchStartPosX === currentPageX) return false;
+
+    if (touchStartPosX - currentPageX > 0) {
+      // console.log("down")
+      scrollDown();
+    } else {
+      // console.log("up")
+      scrollUp();
+    }
+    touchStartPosX = currentPageX;
   });
 
   $(document).on('click touchstart', '.floatingButton button', () => {
