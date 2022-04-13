@@ -199,4 +199,9 @@ module.exports.postAceInit = (hookName, context) => {
       toggleAttributeOnSelection(action);
     }
   });
+
+  // prevent close keyboard
+  $(document).on('touchend', '#mobileToolbar', (e) => {
+    e.preventDefault();
+  });
 };
