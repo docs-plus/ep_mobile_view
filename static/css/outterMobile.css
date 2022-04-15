@@ -1,3 +1,8 @@
+html.pad, html.pad body{
+  height: 100vh!important;
+  position: relative!important;
+}
+
 body.mobileView button{
   cursor: none;
 }
@@ -107,6 +112,7 @@ body > header .shortMenue .btnChat button{
   opacity: 0;
   z-index: -1000;
   transition: opacity .4s cubic-bezier(0.075, 0.82, 0.165, 1);
+  overflow: hidden;
 }
 
 .ndModal .menue{
