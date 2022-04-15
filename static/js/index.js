@@ -195,6 +195,10 @@ module.exports.postAceInit = (hookName, context) => {
       context.ace.callWithAce((ace) => {
         ace.ace_doInsertOrderedList();
       }, action);
+    } else if (action === 'insertunorderedlist') {
+      context.ace.callWithAce((ace) => {
+        ace.ace_doInsertUnorderedList();
+      }, action);
     } else if ('bold, italic, underline'.includes(action)) {
       toggleAttributeOnSelection(action);
     }
