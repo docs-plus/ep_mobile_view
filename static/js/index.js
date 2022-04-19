@@ -70,26 +70,26 @@ module.exports.postAceInit = (hookName, context) => {
     if (touchStartPosX === currentPageX) return false;
 
     if (touchStartPosX - currentPageX > 0) {
-      // console.log("down")
+      // console.log('down');
       scrollDown();
     } else {
-      // console.log("up")
+      // console.log('up');
       scrollUp();
     }
     touchStartPosX = currentPageX;
   });
 
   $(document).on('click touchstart', '.floatingButton button', () => {
-    const aceInner = $(document).find('iframe[name="ace_outer"]')
+    const p = $(document).find('iframe[name="ace_outer"]')
         .contents().find('iframe[name="ace_inner"]').contents().find('#innerdocbody')[0];
 
-    const p = aceInner;
     p.focus(); // alternatively use setTimeout(() => { p.focus(); }, 0);
     // this is enough to focus an empty element (at least in Chrome)
 
     if (p.hasChildNodes()) { // if the element is not empty
-      const s = window.getSelection();
-      const r = document.createRange();
+      const s = $(document).find('iframe[name="ace_outer"]')
+          .contents().find('iframe[name="ace_inner"]').contents()[0].getSelection();
+      const r = p.parentNode.parentNode.createRange();
       const e = p.childElementCount > 0 ? p.lastChild : p;
       r.setStart(e, 1);
       r.setEnd(e, 1);
@@ -102,8 +102,9 @@ module.exports.postAceInit = (hookName, context) => {
   });
 
 
-  const onKeyboardOnOff = (isOpen) => {
+  const onKeyboardOnOff = (isOpen, viewportHeight, pageTop) => {
     // Write down your handling code
+    viewportHeight = Math.trunc(viewportHeight + pageTop);
     if (isOpen) {
       // keyboard is open
       $('#mobileToolbar, #closeVirtualKeyboar').show();
@@ -115,73 +116,29 @@ module.exports.postAceInit = (hookName, context) => {
       $('#openLeftSideMenue').show();
       $('.floatingButton').fadeIn('fast');
     }
+
+    $('html.pad, html.pad body').css({
+      height: `${viewportHeight}px`,
+    });
   };
 
-  let originalPotion = false;
-  $(document).ready(() => {
-    if (originalPotion === false) originalPotion = $(window).width() + $(window).height();
-  });
-
-  /**
- * Determine the mobile operating system.
- * This function returns one of 'iOS', 'Android', 'Windows Phone', or 'unknown'.
- *
- * @returns {String}
- */
-  const getMobileOperatingSystem = () => {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-    // Windows Phone must come first because its UA also contains "Android"
-    if (/windows phone/i.test(userAgent)) {
-      return 'winphone';
-    }
-
-    if (/android/i.test(userAgent)) {
-      return 'android';
-    }
-
-    // iOS detection from: http://stackoverflow.com/a/9039885/177710
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-      return 'ios';
-    }
-
-    return '';
-  };
-
-  const applyAfterResize = () => {
-    if (getMobileOperatingSystem() !== 'ios') {
-      if (originalPotion !== false) {
-        const wasWithKeyboard = $('body').hasClass('view-withKeyboard');
-        let nowWithKeyboard = false;
-
-        const diff = Math.abs(originalPotion - ($(window).width() + $(window).height()));
-        if (diff > 100) nowWithKeyboard = true;
-
-        $('body').toggleClass('view-withKeyboard', nowWithKeyboard);
-        if (wasWithKeyboard !== nowWithKeyboard) {
-          onKeyboardOnOff(nowWithKeyboard);
-        }
+  if ($('body').hasClass('mobileView')) {
+    const viewPortHeight = window.innerHeight;
+    const viewportHandler = (event) => {
+      event.preventDefault();
+      window.scrollTo(0, 0);
+      const viewport = event.target;
+      if (viewport.height < viewPortHeight) {
+        // console.log("keyboard open")
+        onKeyboardOnOff(true, viewport.height, viewport.pageTop);
+      } else {
+        // console.log("keyboard closed")
+        onKeyboardOnOff(false, viewport.height, viewport.pageTop);
       }
-    }
-  };
-
-  $(document).find('iframe[name="ace_outer"]')
-      .contents()
-      .find('iframe[name="ace_inner"]')
-      .contents()
-      .find('#innerdocbody')
-      .on('focus blur',
-          'select, textarea, input[type=text], input[type=date], input[type=password], input[type=email], input[type=number]',
-          (e) => {
-            const nowWithKeyboard = (e.type === 'focusin');
-            $('body').toggleClass('view-withKeyboard', nowWithKeyboard);
-            onKeyboardOnOff(nowWithKeyboard);
-          });
-
-  $(window).on('resize orientationchange', () => {
-    applyAfterResize();
-  });
-
+    };
+    window.visualViewport.addEventListener('resize', viewportHandler);
+    window.visualViewport.addEventListener('scroll', viewportHandler);
+  }
 
   const toggleAttributeOnSelection = (action) => {
     context.ace.callWithAce((ace) => {
