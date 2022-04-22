@@ -10,6 +10,32 @@
   <% e.begin_block("htmlHead"); %>
   <% e.end_block(); %>
   <title><%=meta.title%></title>
+
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name= "theme-color" content= "#3367D6">
+
+  <!-- Sets whether a web application runs in full-screen mode.
+  See: https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#//apple_ref/doc/uid/TP40008193-SW3 -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!-- Sets the style of the status bar for a web application.
+  See: https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#//apple_ref/doc/uid/TP40008193-SW4 -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <!-- Web clip icon for Android homescreen shortcuts. Available since Chrome 31+ for Android.
+  See: https://developers.google.com/chrome/mobile/docs/installtohomescreen -->
+  <link rel="shortcut icon" sizes="192x192" href="<%= staticRootAddress %>pluginfw/ep_mobile_view/logo/logo_192.png">
+
+  <link id="apple-touch-icon" rel="apple-touch-icon" href="<%= staticRootAddress %>pluginfw/ep_mobile_view/logo/logo_ios_512.png">
+
+  <!-- Disables automatic detection of possible phone numbers in a webpage in Safari on iOS.
+  See: https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#//apple_ref/doc/uid/TP40008193-SW5
+  See: https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#//apple_ref/html/const/format-detection -->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="format-detection" content="address=no">
+
+  <link rel="manifest" href="<%= staticRootAddress %>pluginfw/ep_mobile_view/manifest.json">
   <script>
     /*
     |@licstart  The following is the entire license notice for the
@@ -42,8 +68,6 @@
   <link rel="shortcut icon" href="<%= settings.getFaviconAddress(settings.favicon)%>">
   <meta property="og:title" content="<%=meta.title%>" />
   <meta property="og:image" content="https://docs.plus/static/images/social-logo.png?v=<%=settings.randomVersionString%>" />
-
-  <link rel="shortcut icon" href="<%= settings.getFaviconAddress(settings.favicon)%>">
   <meta property="og:title" content="<%=meta.title%>" />
   <meta property="og:description" content="docs.plus" />
   <meta property="og:image" content="https://docs.plus/static/images/social-logo.png?v=<%=settings.randomVersionString%>" />

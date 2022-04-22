@@ -32,6 +32,20 @@ exports.expressCreateServer = (hookName, args, callback) => {
     return next();
   });
 
+  args.app.get('/pluginfw/ep_mobile_view/manifest.json', async (req, res) => {
+    res.sendFile(`${__dirname}/manifest.json`);
+  });
+
+  args.app.get('/pluginfw/ep_mobile_view/logo/:logoName', async (req, res) => {
+    const {logoName} = req.params;
+    res.sendFile(`${__dirname}/static/img/${logoName}`);
+  });
+
+  args.app.get('/pluginfw/ep_mobile_view/screenshot/:screenshot', async (req, res) => {
+    const {screenshot} = req.params;
+    res.sendFile(`${__dirname}/static/img/${screenshot}`);
+  });
+
   args.app.get('/p/:pad*', async (req, res, next) => {
     if (/(\/static\/plugins\/(.*))/.test(req.path)) return next();
     if (!userAgent.isMobile) return next();
@@ -64,5 +78,7 @@ exports.expressCreateServer = (hookName, args, callback) => {
 
     }));
   });
+
+
   return callback();
 };
