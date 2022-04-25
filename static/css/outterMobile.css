@@ -355,6 +355,11 @@ body > header .shortMenue .btnChat button{
   content: "\e84d";
 }
 
+#mobileToolbar > ul > li .icon.embededMedia:before{
+  content: "\e83a";
+  font-size: 16px;
+}
+
 #mobileToolbar > ul > li.menuDivider {
   width: 4px;
 }
