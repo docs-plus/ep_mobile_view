@@ -5,13 +5,18 @@ module.exports.aceEditorCSS = () => {
 
 $.fn.ndModal = function () {
   if ($(this).find('.blackScreen').length === 0) {
-    this.prepend('<div class="blackScreen"></div>');
+    this.append('<div class="blackScreen"></div>');
   }
-  $(this).on('click touchstart', '.btnCloseNdModal', () => {
-    $(this).addClass('close');
+
+  const closeModal = (el) => {
+    $(el).addClass('close');
     setTimeout(() => {
-      $(this).removeClass('active close');
+      $(el).removeClass('active close');
     }, 600);
+  };
+
+  $(this).on('click touchstart', '.btnCloseNdModal', (e) => {
+    closeModal(this);
   });
 
   const closeBtn = `
@@ -29,7 +34,20 @@ $.fn.ndModal = function () {
     $(this).find('.menue').prepend(closeBtn);
   }
 
-  $(this).addClass('active');
+  // if click to the balck screen close the modal
+  $(this).on('click touchstart', (e) => {
+    const isBlackScreen = $(e.target).hasClass('blackScreen');
+    const isWrapperActive = $(this).hasClass('active');
+    if (isBlackScreen && isWrapperActive) {
+      closeModal(this);
+    }
+  });
+
+  // I do not want the black screen event to be activated immediately.
+  setTimeout(() => {
+    $(this).addClass('active');
+  }, 200);
+
   return this;
 };
 
