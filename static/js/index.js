@@ -180,24 +180,7 @@ module.exports.postAceInit = (hookName, context) => {
   });
 
   // prevent close keyboard
-  $(document).on('touchend', '#mobileToolbar', (e) => {
+  $(document).on('touchend touchstart', '#mobileToolbar, #headings', (e) => {
     e.preventDefault();
-  });
-
-  /** nice-select */
-  // Close when clicking outside
-  $(document).on('touchstart', '.nice-select', function (e) {
-    $(this).trigger('click');
-    return this;
-  });
-
-  $(document).on('touchstart', '.nice-select li:not(.disabled)', function (e) {
-    $(this).trigger('click');
-    return this;
-  });
-
-  $(document).on('touchend', '.nice-select *, .nice-select, #heading-selection', (e) => {
-    e.preventDefault();
-    return this;
   });
 };
