@@ -116,7 +116,7 @@ module.exports.postAceInit = (hookName, context) => {
     }
 
     $('.floatingButton').fadeOut('fast');
-    $('#mobileToolbar').show();
+    $('#mobileToolbar').css('display', 'flex');
   });
 
 
@@ -125,7 +125,8 @@ module.exports.postAceInit = (hookName, context) => {
     viewportHeight = Math.trunc(viewportHeight + pageTop);
     if (isOpen) {
       // keyboard is open
-      $('#mobileToolbar, #closeVirtualKeyboar').show();
+      $('#mobileToolbar').css('display', 'flex');
+      $('#closeVirtualKeyboar').show();
       $('#openLeftSideMenue').hide();
       $('.floatingButton').fadeOut('fast');
     } else {
@@ -183,4 +184,30 @@ module.exports.postAceInit = (hookName, context) => {
   $(document).on('touchend touchstart', '#mobileToolbar, #headings', (e) => {
     e.preventDefault();
   });
+};
+
+
+exports.aceEditEvent = (hookName, call) => {
+  // If it's not a click or a key event and the text hasn't changed then do nothing
+  const cs = call.callstack;
+  if (!(cs.type === 'handleClick') && !(cs.type === 'handleKeyEvent') && !(cs.docTextChanged)) {
+    return false;
+  }
+  // If it's an initial setup event then do nothing..
+  if (cs.type === 'setBaseText' || cs.type === 'setup') return false;
+
+  // toolbar caret attr check
+  setTimeout(() => {
+    const attributeManager = call.documentAttributeManager;
+    $('#mobileToolbar > ul > li').removeClass('active');
+
+    for (const caretAttr of ['bold', 'italic', 'underline']) {
+      const activeCaret = attributeManager.hasAttributeOnSelectionOrCaretPosition(caretAttr);
+      if (activeCaret) {
+        $(`#mobileToolbar > ul > li[data-action="${caretAttr}"]`).addClass('active');
+      }
+    }
+  }, 250);
+
+  return {};
 };
