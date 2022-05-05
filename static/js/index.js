@@ -158,26 +158,98 @@ module.exports.postAceInit = (hookName, context) => {
     window.visualViewport.addEventListener('resize', viewportHandler);
     window.visualViewport.addEventListener('scroll', viewportHandler);
   }
+  class ToolbarItem {
+    constructor(element) {
+      this.$el = element;
+    }
 
-  const toggleAttributeOnSelection = (action) => {
-    context.ace.callWithAce((ace) => {
-      ace.ace_toggleAttributeOnSelection(action);
-    }, action);
+    getCommand() {
+      return this.$el.attr('data-action');
+    }
+
+    getValue() {
+      if (this.isSelect()) {
+        return this.$el.find('select').val();
+      }
+    }
+
+    setValue(val) {
+      if (this.isSelect()) {
+        return this.$el.find('select').val(val);
+      }
+    }
+
+    getType() {
+      return this.$el.attr('data-type');
+    }
+
+    isSelect() {
+      return this.getType() === 'select';
+    }
+
+    isButton() {
+      return this.getType() === 'button';
+    }
+
+    bind(callback) {
+      if (this.isButton()) {
+        this.$el.on('click touchstart', (event) => {
+          $(':focus').blur();
+          callback(this.getCommand(), this);
+          event.preventDefault();
+        });
+      } else if (this.isSelect()) {
+        this.$el.find('select').change(() => {
+          callback(this.getCommand(), this);
+        });
+      }
+    }
+  }
+
+  const commands = {};
+
+  const registerCommand = (cmd, callback) => {
+    commands[cmd] = callback;
+    return this;
   };
 
-  $(document).on('touchstart', '#mobileToolbar ul li', function () {
-    const action = $(this).attr('data-action');
-    if (action === 'insertorderedlist') {
-      context.ace.callWithAce((ace) => {
-        ace.ace_doInsertOrderedList();
-      }, action);
-    } else if (action === 'insertunorderedlist') {
-      context.ace.callWithAce((ace) => {
-        ace.ace_doInsertUnorderedList();
-      }, action);
-    } else if ('bold, italic, underline'.includes(action)) {
-      toggleAttributeOnSelection(action);
+  const registerAceCommand = (cmd, callback) => {
+    registerCommand(cmd, (cmd, ace, item) => {
+      ace.callWithAce((ace) => {
+        callback(cmd, ace, item);
+      }, cmd, true);
+    });
+  };
+
+  const triggerCommand = (cmd, item) => {
+    if (commands[cmd]) {
+      commands[cmd](cmd, context.ace, item);
     }
+    if (context.ace) context.ace.focus();
+  };
+
+  const aceAttributeCommand = (cmd, ace) => {
+    ace.ace_toggleAttributeOnSelection(cmd);
+  };
+
+  registerAceCommand('bold', aceAttributeCommand);
+  registerAceCommand('italic', aceAttributeCommand);
+  registerAceCommand('underline', aceAttributeCommand);
+
+  registerAceCommand('insertunorderedlist', (cmd, ace) => {
+    ace.ace_doInsertUnorderedList();
+  });
+
+  registerAceCommand('insertorderedlist', (cmd, ace) => {
+    ace.ace_doInsertOrderedList();
+  });
+
+
+  $('#mobileToolbar [data-action]').each((i, elt) => {
+    $(elt).unbind('click');
+    new ToolbarItem($(elt)).bind((command, item) => {
+      triggerCommand(command, item);
+    });
   });
 
   // prevent close keyboard
