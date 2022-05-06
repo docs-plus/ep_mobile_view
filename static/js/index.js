@@ -177,18 +177,40 @@ module.exports.postAceInit = (hookName, context) => {
     const viewPortHeight = window.innerHeight;
     const viewportHandler = (event) => {
       event.preventDefault();
-      window.scrollTo(0, 0);
       const viewport = event.target;
       if (viewport.height < viewPortHeight) {
-        // console.log("keyboard open")
         onKeyboardOnOff(true, viewport.height, viewport.pageTop);
+
+        // if the device is Android
+        if (!clientVars.userAgent.isSafari) {
+          $(document).find('iframe[name="ace_outer"]')
+              .contents().find('iframe[name="ace_inner"]')
+              .contents().find('#innerdocbody')[0].focus();
+        }
       } else {
         // console.log("keyboard closed")
         onKeyboardOnOff(false, viewport.height, viewport.pageTop);
       }
     };
+
+    const viewportHandlerscroll = (event) => {
+      event.preventDefault();
+      const viewport = event.target;
+      // when the keypad opens
+      if (viewport.height < viewPortHeight) {
+        const selection = $(document).find('iframe[name="ace_outer"]')
+            .contents().find('iframe[name="ace_inner"]').contents()[0].getSelection();
+        const targetNode = selection.anchorNode.parentElement.closest('div');
+
+        if (!targetNode) return;
+        targetNode.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+    };
     window.visualViewport.addEventListener('resize', viewportHandler);
-    window.visualViewport.addEventListener('scroll', viewportHandler);
+    window.visualViewport.addEventListener('scroll', viewportHandlerscroll);
   }
   class ToolbarItem {
     constructor(element) {
