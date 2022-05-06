@@ -97,24 +97,56 @@ module.exports.postAceInit = (hookName, context) => {
     touchStartPosX = currentPageX;
   });
 
-  $(document).on('click touchstart', '.floatingButton button', () => {
-    const p = $(document).find('iframe[name="ace_outer"]')
-        .contents().find('iframe[name="ace_inner"]').contents().find('#innerdocbody')[0];
+  // TODO: refactor needed
 
-    p.focus(); // alternatively use setTimeout(() => { p.focus(); }, 0);
-    // this is enough to focus an empty element (at least in Chrome)
-
-    if (p.hasChildNodes()) { // if the element is not empty
-      const s = $(document).find('iframe[name="ace_outer"]')
-          .contents().find('iframe[name="ace_inner"]').contents()[0].getSelection();
-      const r = p.parentNode.parentNode.createRange();
-      const e = p.childElementCount > 0 ? p.lastChild : p;
-      r.setStart(e, 1);
-      r.setEnd(e, 1);
-      s.removeAllRanges();
-      s.addRange(r);
+  const createRange = (node, chars, range) => {
+    if (!range) {
+      range = document.createRange();
+      range.selectNode(node);
+      range.setStart(node, 0);
     }
 
+    if (chars.count === 0) {
+      range.setEnd(node, chars.count);
+    } else if (node && chars.count > 0) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        if (node.textContent.length < chars.count) {
+          chars.count -= node.textContent.length;
+        } else {
+          range.setEnd(node, chars.count);
+          chars.count = 0;
+        }
+      } else {
+        for (let lp = 0; lp < node.childNodes.length; lp++) {
+          range = createRange(node.childNodes[lp], chars, range);
+
+          if (chars.count === 0) {
+            break;
+          }
+        }
+      }
+    }
+
+    return range;
+  };
+
+  const setCurrentCursorPosition = (chars) => {
+    if (chars >= 0) {
+      const selection = window.getSelection();
+
+      const range = createRange($(document).find('iframe[name="ace_outer"]')
+          .contents().find('iframe[name="ace_inner"]').contents().find('#innerdocbody')[0], {count: chars});
+
+      if (range) {
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+    }
+  };
+
+  $(document).on('click touchstart', '.floatingButton button', () => {
+    setCurrentCursorPosition(lastCaretPos.caretPosistion);
     $('.floatingButton').fadeOut('fast');
     $('#mobileToolbar').css('display', 'flex');
   });
@@ -258,10 +290,66 @@ module.exports.postAceInit = (hookName, context) => {
   });
 };
 
+let lastCaretPos = {};
+
+// TODO: refactor needed
+const isChildOf = (node, parentId) => {
+  while (node != null) {
+    if (node.id === parentId) {
+      return true;
+    }
+    node = node.parentNode;
+  }
+
+  return false;
+};
+
+const getCurrentCursorPosition = (parentId) => {
+  const selection = $(document).find('iframe[name="ace_outer"]')
+      .contents().find('iframe[name="ace_inner"]').contents()[0].getSelection();
+  let charCount = -1;
+  let node;
+
+  if (selection.focusNode) {
+    if (isChildOf(selection.focusNode, parentId)) {
+      node = selection.focusNode;
+      charCount = selection.focusOffset;
+
+      while (node) {
+        if (node.id === parentId) {
+          break;
+        }
+
+        if (node.previousSibling) {
+          node = node.previousSibling;
+          charCount += node.textContent.length;
+        } else {
+          node = node.parentNode;
+          if (node == null) {
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  return charCount;
+};
 
 exports.aceEditEvent = (hookName, call) => {
   // If it's not a click or a key event and the text hasn't changed then do nothing
   const cs = call.callstack;
+
+  // save last postion of the caret
+  // TODO: refactor needed
+  if ((cs.type === 'handleKeyEvent')) {
+    setTimeout(() => {
+      lastCaretPos = {
+        caretPosistion: getCurrentCursorPosition('innerdocbody'),
+      };
+    }, 200);
+  }
+
   if (!(cs.type === 'handleClick') && !(cs.type === 'handleKeyEvent') && !(cs.docTextChanged)) {
     return false;
   }
