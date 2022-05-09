@@ -173,6 +173,24 @@ module.exports.postAceInit = (hookName, context) => {
     });
   };
 
+  const scrollToFixViewPort = (viewport) => {
+    const selection = $(document).find('iframe[name="ace_outer"]')
+        .contents().find('iframe[name="ace_inner"]').contents()[0].getSelection();
+
+    const targetNode = selection.anchorNode.parentElement.closest('div');
+
+    if (!targetNode) return;
+
+    const $outerdoc = $('iframe[name="ace_outer"]').contents().find('#outerdocbody');
+    const $outerdocHTML = $outerdoc.parent();
+    if (targetNode.offsetTop > viewport.height) {
+      // center of viewport
+      const offsetTop = targetNode.offsetTop - (viewport.height / 2);
+      $outerdoc.animate({scrollTop: offsetTop});
+      $outerdocHTML.animate({scrollTop: offsetTop});
+    }
+  };
+
   if ($('body').hasClass('mobileView')) {
     const viewPortHeight = window.innerHeight;
     const viewportHandler = (event) => {
@@ -186,6 +204,8 @@ module.exports.postAceInit = (hookName, context) => {
           $(document).find('iframe[name="ace_outer"]')
               .contents().find('iframe[name="ace_inner"]')
               .contents().find('#innerdocbody')[0].focus();
+
+          scrollToFixViewPort(viewport);
         }
       } else {
         // console.log("keyboard closed")
@@ -198,15 +218,8 @@ module.exports.postAceInit = (hookName, context) => {
       const viewport = event.target;
       // when the keypad opens
       if (viewport.height < viewPortHeight) {
-        const selection = $(document).find('iframe[name="ace_outer"]')
-            .contents().find('iframe[name="ace_inner"]').contents()[0].getSelection();
-        const targetNode = selection.anchorNode.parentElement.closest('div');
-
-        if (!targetNode) return;
-        targetNode.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        });
+        // This function only works when the device is an APPLE product
+        scrollToFixViewPort(viewport);
       }
     };
     window.visualViewport.addEventListener('resize', viewportHandler);
