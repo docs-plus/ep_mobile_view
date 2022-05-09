@@ -2,7 +2,6 @@
 	"parts": [
 		{
 			"name": "ep_mobile_view",
-
 			"client_hooks": {
         "aceEditorCSS": "ep_mobile_view/static/js/index",
         "postAceInit": "ep_mobile_view/static/js/index",
