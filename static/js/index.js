@@ -56,6 +56,13 @@ const innderDoc = () => $(document)
     .contents().find('iframe[name="ace_inner"]').contents();
 
 module.exports.postAceInit = (hookName, context) => {
+  if (!clientVars.userAgent.isMobile) return false;
+
+  // put the contents in to the readOnly mode
+  context.ace.callWithAce((ace) => {
+    ace.ace_setEditable(false);
+  }, 'disableContentEditable', true);
+
   $(document).on('click touchstart', '#openLeftSideMenue', () => {
     $('#tableOfContentsModal').ndModal();
   });
@@ -147,8 +154,19 @@ module.exports.postAceInit = (hookName, context) => {
 
   $(document).on('click touchstart', '.floatingButton button', () => {
     setCurrentCursorPosition(lastCaretPos.caretPosistion);
+    // put the contents in to the editable mode
+    context.ace.callWithAce((ace) => {
+      ace.ace_setEditable(true);
+      // if the device is Android
+      if (!clientVars.userAgent.isSafari) {
+        $(document).find('iframe[name="ace_outer"]')
+            .contents().find('iframe[name="ace_inner"]')
+            .contents().find('#innerdocbody')[0].focus();
+      }
+    }, 'contentEditable', true);
+
     $('.floatingButton').fadeOut('fast');
-    $('#mobileToolbar').css('display', 'flex');
+    $('#mobileToolbar').show();
   });
 
 
@@ -166,6 +184,10 @@ module.exports.postAceInit = (hookName, context) => {
       $('#mobileToolbar, #closeVirtualKeyboar').hide();
       $('#openLeftSideMenue').show();
       $('.floatingButton').fadeIn('fast');
+      // put the contents in to the readOnly mode
+      context.ace.callWithAce((ace) => {
+        ace.ace_setEditable(false);
+      }, 'contentEditable', true);
     }
 
     $('html.pad, html.pad body').css({
@@ -191,40 +213,23 @@ module.exports.postAceInit = (hookName, context) => {
     }
   };
 
-  if ($('body').hasClass('mobileView')) {
-    const viewPortHeight = window.innerHeight;
-    const viewportHandler = (event) => {
-      event.preventDefault();
-      const viewport = event.target;
-      if (viewport.height < viewPortHeight) {
-        onKeyboardOnOff(true, viewport.height, viewport.pageTop);
 
-        // if the device is Android
-        if (!clientVars.userAgent.isSafari) {
-          $(document).find('iframe[name="ace_outer"]')
-              .contents().find('iframe[name="ace_inner"]')
-              .contents().find('#innerdocbody')[0].focus();
+  const viewPortHeight = window.innerHeight;
+  const viewportHandler = (event) => {
+    event.preventDefault();
+    const viewport = event.target;
+    if (viewport.height < viewPortHeight) {
+      onKeyboardOnOff(true, viewport.height, viewport.pageTop);
+      scrollToFixViewPort(viewport);
+    } else {
+      // console.log("keyboard closed")
+      onKeyboardOnOff(false, viewport.height, viewport.pageTop);
+    }
+  };
 
-          scrollToFixViewPort(viewport);
-        }
-      } else {
-        // console.log("keyboard closed")
-        onKeyboardOnOff(false, viewport.height, viewport.pageTop);
-      }
-    };
+  window.visualViewport.addEventListener('resize', viewportHandler);
+  window.visualViewport.addEventListener('scroll', viewportHandler);
 
-    const viewportHandlerscroll = (event) => {
-      event.preventDefault();
-      const viewport = event.target;
-      // when the keypad opens
-      if (viewport.height < viewPortHeight) {
-        // This function only works when the device is an APPLE product
-        scrollToFixViewPort(viewport);
-      }
-    };
-    window.visualViewport.addEventListener('resize', viewportHandler);
-    window.visualViewport.addEventListener('scroll', viewportHandlerscroll);
-  }
   class ToolbarItem {
     constructor(element) {
       this.$el = element;
