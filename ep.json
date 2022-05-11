@@ -3,9 +3,10 @@
 		{
 			"name": "ep_mobile_view",
 			"client_hooks": {
-        "aceEditorCSS": "ep_mobile_view/static/js/index",
-        "postAceInit": "ep_mobile_view/static/js/index",
-        "aceEditEvent": "ep_mobile_view/static/js/index"
+        "aceEditorCSS": "ep_mobile_view/static/dist/bundle",
+        "postAceInit": "ep_mobile_view/static/dist/bundle",
+        "aceEditEvent": "ep_mobile_view/static/dist/bundle",
+        "collectContentPre": "ep_mobile_view/static/dist/bundle"
       },
 			"hooks": {
         "expressCreateServer": "ep_mobile_view/index",
