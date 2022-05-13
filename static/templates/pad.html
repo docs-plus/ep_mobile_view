@@ -67,10 +67,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
   <link rel="shortcut icon" href="<%= settings.getFaviconAddress(settings.favicon)%>">
   <meta property="og:title" content="<%=meta.title%>" />
-  <meta property="og:image" content="https://docs.plus/static/images/social-logo.png?v=<%=settings.randomVersionString%>" />
-  <meta property="og:title" content="<%=meta.title%>" />
   <meta property="og:description" content="docs.plus" />
-  <meta property="og:image" content="https://docs.plus/static/images/social-logo.png?v=<%=settings.randomVersionString%>" />
+
+  <meta property="og:image" content="https://docs.plus/static/images/logo.svg?v=<%=settings.randomVersionString%>" />
+  <meta property="og:image:type" content="image/svg+xml" />
+  <meta property="og:image:alt" content="docs.plus icon" />
+
 
   <% e.begin_block("styles"); %>
   <link href="<%= staticRootAddress %>static/css/pad.css?v=<%=settings.randomVersionString%>" rel="stylesheet">
