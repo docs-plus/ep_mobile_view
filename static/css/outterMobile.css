@@ -82,7 +82,7 @@ body > header .shortMenue {
 body > header .shortMenue .inlineAvatar {
   width: 30px;
   height: 30px;
-  background-color: palevioletred;
+  background-color: #eeee;
   border-radius: 50%;
 }
 
