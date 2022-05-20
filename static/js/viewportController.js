@@ -1,3 +1,5 @@
+import db from './db';
+
 const viewPortHeight = window.innerHeight;
 let touchStartPosX = 0;
 
@@ -7,9 +9,12 @@ const innderDoc = () => $(document)
 
 export default (context) => {
   const scrollDown = () => {
-    $('#mainHeader').css({
-      transform: 'translateY(-100%)',
-    });
+    if (!db.keyboardOpen) {
+      $('#mainHeader').css({
+        transform: 'translateY(-100%)',
+      });
+    }
+
     $('.floatingButton').css({
       transform: 'translateY(160%)',
     });
@@ -47,19 +52,20 @@ export default (context) => {
     viewportHeight = Math.trunc(viewportHeight + pageTop);
     if (isOpen) {
       // keyboard is open
-      $('#mobileToolbar').css('display', 'flex');
-      $('#closeVirtualKeyboar').show();
+      $('#mobileToolbar, #menu_editeMode').css('display', 'flex');
       $('#openLeftSideMenue').hide();
       $('.floatingButton').fadeOut('fast');
+      db.keyboardOpen = true;
     } else {
       // keyboard is closed
-      $('#mobileToolbar, #closeVirtualKeyboar').hide();
+      $('#mobileToolbar, #menu_editeMode').hide();
       $('#openLeftSideMenue').show();
       $('.floatingButton').fadeIn('fast');
       // put the contents in to the readOnly mode
       context.ace.callWithAce((ace) => {
         ace.ace_setEditable(false);
       }, 'contentEditable', true);
+      db.keyboardOpen = false;
     }
 
     $('html.pad, html.pad body').css({

@@ -57,11 +57,11 @@ export default (context) => {
   };
 
   // prevent close keyboard
-  $(document).on('touchend touchstart', '#mobileToolbar, #headings', (e) => {
+  $(document).on('touchend touchstart', '#mobileToolbar, #headings, .buttonicon.buttonicon-undo, .buttonicon.buttonicon-redo', (e) => {
     e.preventDefault();
   });
 
-  $('#mobileToolbar [data-action]').each((i, elt) => {
+  $('#mobileToolbar [data-action], #menu_editeMode [data-action]').each((i, elt) => {
     $(elt).unbind('click');
     new ToolbarItem($(elt)).bind((command, item) => {
       triggerCommand(command, item);
@@ -94,4 +94,6 @@ export default (context) => {
   registerAceCommand('insertorderedlist', (cmd, ace) => {
     ace.ace_doInsertOrderedList();
   });
+  registerAceCommand('undo', (cmd, ace) => ace.ace_doUndoRedo(cmd));
+  registerAceCommand('redo', (cmd, ace) => ace.ace_doUndoRedo(cmd));
 };
