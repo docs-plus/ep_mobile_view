@@ -59,13 +59,19 @@ export default (context) => {
     } else {
       // keyboard is closed
       $('#mobileToolbar, #menu_editeMode').hide();
-      $('#openLeftSideMenue').show();
+      $('#openLeftSideMenue, body.mobileView header .title').show();
       $('.floatingButton').fadeIn('fast');
       // put the contents in to the readOnly mode
       context.ace.callWithAce((ace) => {
         ace.ace_setEditable(false);
       }, 'contentEditable', true);
       db.keyboardOpen = false;
+      // ios close keyboard
+      $(document).find('iframe[name="ace_outer"]')
+          .contents().find('iframe[name="ace_inner"]')
+          .contents()[0].activeElement.blur();
+
+      // navigator.virtualKeyboard.hide();
     }
 
     $('html.pad, html.pad body').css({
@@ -105,4 +111,11 @@ export default (context) => {
 
   window.visualViewport.addEventListener('resize', viewportHandler);
   window.visualViewport.addEventListener('scroll', viewportHandler);
+
+  $(document).on('click touchstart', '#closeVirtualKeyboar', (event) => {
+    $('#menu_editeMode').hide(0, () => {
+      $('body.mobileView header .title, #openLeftSideMenue').show();
+      viewportHandler(event);
+    });
+  });
 };

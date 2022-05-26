@@ -69,6 +69,10 @@ export default (context) => {
 
     $('.floatingButton').fadeOut('fast');
     $('#mobileToolbar').show();
-    $('#menu_editeMode').css({display: 'flex'});
+
+    $('body.mobileView header .title, #openLeftSideMenue')
+        .hide(0, () => {
+          $('#menu_editeMode').css({display: 'flex'});
+        });
   });
 };

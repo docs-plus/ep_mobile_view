@@ -15,7 +15,7 @@ export const postAceInit = (hookName, context) => {
     ace.ace_setEditable(false);
   }, 'disableContentEditable', true);
 
-  $(document).on('click touchstart', '#openLeftSideMenue', () => {
+  $(document).on('touchstart', '#openLeftSideMenue', () => {
     $('#tableOfContentsModal').ndModal();
   });
 
