@@ -26,7 +26,7 @@ export const postAceInit = (hookName, context) => {
 
 export const collectContentPre = (hookName, context) => {
   const tname = context.tname;
-  if ("i, b, u".includes(tname)) {
+  if ('i, b, u'.includes(tname)) {
     context.state.author = clientVars.author = clientVars.userId;
   }
   return [];
