@@ -56,8 +56,9 @@ export default (context) => {
     if (context.ace) context.ace.focus();
   };
 
+  const preventTouchElemets = '#mobileToolbar, #headings, .buttonicon-undo, .buttonicon-redo';
   // prevent close keyboard
-  $(document).on('touchend touchstart', '#mobileToolbar, #headings, .buttonicon.buttonicon-undo, .buttonicon.buttonicon-redo', (e) => {
+  $(document).on('touchend touchstart', preventTouchElemets, (e) => {
     e.preventDefault();
   });
 

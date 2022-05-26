@@ -36,9 +36,13 @@ const createRange = (node, chars, range) => {
 const setCurrentCursorPosition = (chars) => {
   if (chars >= 0) {
     const selection = window.getSelection();
+    const innerdoc = $(document).find('iframe[name="ace_outer"]')
+        .contents()
+        .find('iframe[name="ace_inner"]')
+        .contents()
+        .find('#innerdocbody')[0];
 
-    const range = createRange($(document).find('iframe[name="ace_outer"]')
-        .contents().find('iframe[name="ace_inner"]').contents().find('#innerdocbody')[0], {count: chars});
+    const range = createRange(innerdoc, {count: chars});
 
     if (range) {
       range.collapse(false);
