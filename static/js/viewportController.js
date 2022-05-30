@@ -31,6 +31,7 @@ export default (context) => {
 
   // Detect Scroll Down and Up in mobile(android|ios)
   innderDoc().on('touchmove', (e) => {
+    if (!db.autoHideToolbar) return;
     // Different devices give different values with different decimal percentages.
     const currentPageX = Math.round(e.originalEvent.touches[0].screenY);
 
