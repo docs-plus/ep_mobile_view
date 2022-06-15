@@ -216,6 +216,8 @@ body > header .shortMenue .btnChat button{
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 38px;
+  max-height: 38px;
 }
 
 .ndModal .header button {
