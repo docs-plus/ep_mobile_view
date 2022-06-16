@@ -117,12 +117,11 @@ body > header .shortMenue .btnChat button{
 /* mobal bottom*/
 .ndModal {
   width: 100%;
-  height: 100vh;
-  position: absolute;
+  height: 100%;
+  position: fixed;
   bottom: 0;
   left: 0;
   background: rgba(0,0,0,.5);
-  height: 100%;
   opacity: 0;
   z-index: -1000;
   transition: opacity .4s cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -203,10 +202,10 @@ body > header .shortMenue .btnChat button{
   opacity: 0;
 }
 
-.ndModal.h50 .wrapper{height: 50vh}
-.ndModal.h25 .wrapper{height: 25vh}
-.ndModal.h75 .wrapper{height: 75vh}
-.ndModal.h90 .wrapper{height: 90vh}
+.ndModal.h50 .wrapper{height: 50%}
+.ndModal.h25 .wrapper{height: 25%}
+.ndModal.h75 .wrapper{height: 75%}
+.ndModal.h90 .wrapper{height: 90%}
 .ndModal.w75 .wrapper{width: 75vw}
 .ndModal.w90 .wrapper{width: 90vw}
 
@@ -284,7 +283,6 @@ body > header .shortMenue .btnChat button{
   font-family: "fontawesome-etherpad";
   font-style: normal;
   font-weight: normal;
-  speak: none;
   display: inline-block;
   text-decoration: inherit;
   font-variant: normal;
