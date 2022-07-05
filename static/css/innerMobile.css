@@ -6,3 +6,52 @@
   padding-bottom: 80px;
 }
 
+/*floating button*/
+.floatingButton{
+  background: #007AFF;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all .4s cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  box-shadow: 0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%), 0px 3px 5px -1px rgb(0 0 0 / 20%);
+}
+
+.floatingButton button{
+  outline: none;
+  cursor: none;
+}
+
+.floatingButton .icon{
+  display: block;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  color: #fff;
+
+}
+
+.floatingButton .icon:before{
+  font-family: "fontawesome-etherpad";
+  font-style: normal;
+  font-weight: normal;
+  display: inline-block;
+  text-decoration: inherit;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.floatingButton .icon.pencil:before{
+  content: '\e839';
+  font-size: 20px;
+}

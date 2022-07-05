@@ -1,4 +1,5 @@
 import db from './db';
+import {$outerBody} from './utils';
 
 const viewPortHeight = window.innerHeight;
 let touchStartPosX = 0;
@@ -15,7 +16,7 @@ export default (context) => {
       });
     }
 
-    $('.floatingButton').css({
+    $outerBody().find('.floatingButton').css({
       transform: 'translateY(160%)',
     });
   };
@@ -24,7 +25,7 @@ export default (context) => {
     $('#mainHeader').css({
       transform: 'translateY(0)',
     });
-    $('.floatingButton').css({
+    $outerBody().find('.floatingButton').css({
       transform: 'translateY(0)',
     });
   };
@@ -55,13 +56,13 @@ export default (context) => {
       // keyboard is open
       $('#mobileToolbar, #menu_editeMode').css('display', 'flex');
       $('#openLeftSideMenue').hide();
-      $('.floatingButton').fadeOut('fast');
+      $outerBody().find('.floatingButton').fadeOut('fast');
       db.keyboardOpen = true;
     } else {
       // keyboard is closed
       $('#mobileToolbar, #menu_editeMode').hide();
       $('#openLeftSideMenue, body.mobileView header .title').show();
-      $('.floatingButton').fadeIn('fast');
+      $outerBody().find('.floatingButton').fadeIn('fast');
       // put the contents in to the readOnly mode
       context.ace.callWithAce((ace) => {
         ace.ace_setEditable(false);
@@ -103,7 +104,7 @@ export default (context) => {
     const viewport = event.target;
     if (viewport.height < viewPortHeight) {
       onKeyboardOnOff(true, viewport.height, viewport.pageTop);
-      scrollToFixViewPort(viewport);
+      // scrollToFixViewPort(viewport);
     } else {
       // console.log("keyboard closed")
       onKeyboardOnOff(false, viewport.height, viewport.pageTop);

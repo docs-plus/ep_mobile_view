@@ -1,4 +1,6 @@
 import db from './db';
+import {$outerBody} from './utils';
+
 
 // TODO: refactor needed
 const createRange = (node, chars, range) => {
@@ -54,7 +56,17 @@ const setCurrentCursorPosition = (chars) => {
 
 
 export default (context) => {
-  $(document).on('click touchstart', '.floatingButton button', () => {
+  const fButton = `
+    <div class="floatingButton">
+      <button>
+        <span class="icon pencil"></span>
+      </button>
+    </div>
+  `;
+
+  $outerBody().append(fButton);
+
+  $outerBody().on('click touchstart', '.floatingButton button', () => {
     setCurrentCursorPosition(db.lastCaretPos);
     // put the contents in to the editable mode
     context.ace.callWithAce((ace) => {
@@ -67,7 +79,7 @@ export default (context) => {
       }
     }, 'contentEditable', true);
 
-    $('.floatingButton').fadeOut('fast');
+    $outerBody().find('.floatingButton').fadeOut('fast');
     $('#mobileToolbar').show();
 
     $('body.mobileView header .title, #openLeftSideMenue')

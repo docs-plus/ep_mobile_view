@@ -32,6 +32,6 @@ export default {
       babelHelpers: 'bundled',
       presets: ['@babel/preset-env'],
     }),
-    terser(),
+    // terser(),
   ],
 };
