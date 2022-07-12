@@ -19,6 +19,24 @@ export const postAceInit = (hookName, context) => {
     $('#tableOfContentsModal').ndModal();
   });
 
+  $(document).on('touchstart', '#mainHeader #pad_title .padName', (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    $('.ndModal.active').each(function () {
+      $(this).removeClass('active');
+    });
+    // open chat modal
+    $('#chatModal')
+        .ndModal()
+        .find('.btnCloseNdModal')
+        .attr({id: 'header_chat_room_close'});
+    setTimeout(() => {
+      const headerCounter = $(document).find('#headerContainer');
+      $('#chatModal .header .title').html(headerCounter.text());
+      headerCounter.trigger('click');
+    }, 400);
+  });
+
   viewportController(context);
   toolbar(context);
   floatButton(context);
