@@ -19,7 +19,7 @@ export const postAceInit = (hookName, context) => {
     $('#tableOfContentsModal').ndModal();
   });
 
-  $(document).on('touchstart', '#mainHeader #pad_title .padName', (e) => {
+  $(document).on('touchstart', '#mainHeader #pad_title .padName, body > header .shortMenue .btnChat', (e) => {
     e.stopPropagation();
     e.preventDefault();
     $('.ndModal.active').each(function () {

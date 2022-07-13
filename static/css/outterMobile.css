@@ -110,6 +110,11 @@ body > header .shortMenue .btnChat button{
   height: 30px;
 }
 
+body > header .padName a:hover {
+  text-decoration: none!important;
+  color: inherit!important;
+}
+
 #editorcontainerbox{
   margin: 0;
 }
