@@ -10,7 +10,7 @@
 .floatingButton{
   background: #007AFF;
   position: fixed;
-  bottom: 20px;
+  top: 80vh;
   right: 20px;
   width: 56px;
   height: 56px;
