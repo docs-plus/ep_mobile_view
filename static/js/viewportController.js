@@ -91,12 +91,9 @@ export default (context) => {
 
     const $outerdoc = $('iframe[name="ace_outer"]').contents().find('#outerdocbody');
     const $outerdocHTML = $outerdoc.parent();
-    if (targetNode.offsetTop > viewport.height) {
-      // center of viewport
-      const offsetTop = targetNode.offsetTop - (viewport.height / 2);
-      $outerdoc.animate({scrollTop: offsetTop});
-      $outerdocHTML.animate({scrollTop: offsetTop});
-    }
+    const mainHeder = $('#mainHeader').innerHeight();
+    const offsetTop = targetNode.offsetTop - mainHeder - 25;
+    $outerdocHTML.animate({scrollTop: offsetTop});
   };
 
   const viewportHandler = (event) => {
@@ -104,7 +101,7 @@ export default (context) => {
     const viewport = event.target;
     if (viewport.height < viewPortHeight) {
       onKeyboardOnOff(true, viewport.height, viewport.pageTop);
-      // scrollToFixViewPort(viewport);
+      scrollToFixViewPort(viewport);
     } else {
       // console.log("keyboard closed")
       onKeyboardOnOff(false, viewport.height, viewport.pageTop);
