@@ -20,7 +20,7 @@ In order to have your own custom modal plugin wrapper, we suggest you create and
     <div class="wrapper">
       <div class="header">
         <div class="title">table of Contents</div>
-        <div class="menue">
+        <div class="menu">
           {CustomButtoms}
         </div>
       </div>
@@ -51,7 +51,7 @@ Feel free and add your modal then start your journey
     <div class="wrapper">
       <div class="header">
         <div class="title">Table of Contents</div>
-        <div class="menue"></div>
+        <div class="menu"></div>
       </div>
       <div class="content"></div>
     </div>
@@ -62,7 +62,7 @@ Feel free and add your modal then start your journey
     <div class="wrapper">
       <div class="header">
         <div class="title">Filters</div>
-        <div class="menue"></div>
+        <div class="menu"></div>
       </div>
       <div class="content"></div>
     </div>
